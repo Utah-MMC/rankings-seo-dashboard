@@ -36,3 +36,5 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-event]'))activa
 const initial=location.hash.slice(1);activate(initial==='websiteChangeLog'?'changes':initial==='competitorSection'?'competitors':initial);
 document.title=names[biz]+' · Organic ranking report';
 })();
+
+(()=>{const s=document.createElement("script");s.src="dashboard-experience.js";document.body.append(s)})();
