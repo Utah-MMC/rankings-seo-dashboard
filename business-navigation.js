@@ -40,3 +40,5 @@ document.title=names[biz]+' · Organic ranking report';
 (()=>{const s=document.createElement("script");s.src="dashboard-experience.js";document.body.append(s)})();
 
 (()=>{const a=document.createElement("a");a.href="tracking-center.html?business="+window.REPORT_BUSINESS;a.textContent="Daily pulse & schedules ↗";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();
+
+(()=>{const s=document.createElement("script");s.src="ranking-timeline.js";document.body.append(s)})();
