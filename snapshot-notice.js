@@ -1,0 +1,1 @@
+(()=>{const p=document.createElement('p');p.style.cssText='background:#e8f1f8;padding:12px;border-radius:6px;font-size:14px';p.textContent='View-only dashboard snapshot published 2026-09-29. Rankings retain the observation dates shown below. This website does not run searches or refresh automatically.';const main=document.querySelector('main');if(main)main.prepend(p);})();

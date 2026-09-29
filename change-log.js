@@ -1,0 +1,6 @@
+(()=>{
+const scope=window.REPORT_BUSINESS||'uwg';const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const section=document.createElement('section');section.id='websiteChangeLog';section.className='detail';section.innerHTML='<h2>Recorded website edits</h2><p>View-only snapshot. Editing and saving are available in the managed reporting system.</p><div id="snapshotChanges">Loading saved entries...</div>';document.querySelector('main').append(section);
+window.ChangeLog={context(){}};
+fetch('website-change-log.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{const rows=d.entries.filter(e=>e.business===scope);document.getElementById('snapshotChanges').innerHTML=rows.length?rows.map(e=>`<article><h3>${esc(e.date)} - ${esc(e.status)}</h3><p>${esc(e.city)} - ${esc(e.keyword)}</p><p>${esc(e.change)}</p><p>${esc(e.action)}</p><p>${esc(e.outcome)}</p></article>`).join(''):'<p>No recorded edits for this business.</p>'}).catch(()=>{document.getElementById('snapshotChanges').textContent='Saved entries are unavailable.'});
+})();
