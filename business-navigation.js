@@ -37,11 +37,11 @@ const initial=location.hash.slice(1);activate(initial==='websiteChangeLog'?'chan
 document.title=names[biz]+' · Organic ranking report';
 })();
 
-(()=>{const s=document.createElement("script");s.src="dashboard-experience.js";document.body.append(s)})();
+(()=>{const s=document.createElement("script");s.src="dashboard-experience.js?v=2";document.body.append(s)})();
 
 (()=>{const a=document.createElement("a");a.href="tracking-center.html?business="+window.REPORT_BUSINESS;a.textContent="Pulse & schedules";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();
 
-(()=>{const s=document.createElement("script");s.src="ranking-timeline.js?v=quick-view-11";document.body.append(s)})();
+(()=>{const s=document.createElement("script");s.src="ranking-timeline.js?v=quick-view-12";document.body.append(s)})();
 
 (()=>{const a=document.createElement("a");a.href="manage-tracking.html?business="+(window.REPORT_BUSINESS||"uwg");a.textContent="Keywords & sites";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();
 
@@ -49,4 +49,4 @@ document.title=names[biz]+' · Organic ranking report';
 
 (()=>{const nav=document.querySelector(".report-nav");if(!nav)return;const tools=document.createElement("div");tools.className="report-tools";tools.setAttribute("aria-label","Report tools");for(const a of [...nav.querySelectorAll("a")]){if(a.href.includes("scan-controls"))a.classList.add("scan-action");tools.append(a)}nav.append(tools);const s=document.createElement("script");s.src="page-evidence.js?v=1";document.body.append(s)})();
 
-(()=>{const s=document.createElement("script");s.src="ranking-table-controls.js?v=2";document.body.append(s)})();
+(()=>{const s=document.createElement("script");s.src="ranking-table-controls.js?v=3";document.body.append(s)})();
