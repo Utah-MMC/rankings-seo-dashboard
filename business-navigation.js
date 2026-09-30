@@ -21,7 +21,7 @@ for(const node of old){
 }
 if(biz==='uwg'){
  panels.competitors.innerHTML='<h2>Local pond competitors</h2><p>Compare the same cities and keywords using the business selector in the ranking grid. All businesses use the organic results collected through position 40.</p>';
- const list=document.createElement('div');list.className='toolbar';for(const c of DATA.competitors.filter(c=>c.id!=='uwg')){const b=document.createElement('button');b.textContent=c.name;b.onclick=()=>{document.getElementById('business').value=c.id;document.getElementById('business').dispatchEvent(new Event('change'));activate('rankings',true);};list.append(b);}panels.competitors.append(list);
+ const list=document.createElement('div');list.className='toolbar';for(const c of DATA.competitors.filter(c=>c.id!=='uwg')){const b=document.createElement('button');b.textContent=c.name;if(c.relationship==='managed'){b.style.cssText='background:#f0eafb;color:#67408c;border-color:#bda5d6';b.title='Owned / managed site'}b.onclick=()=>{document.getElementById('business').value=c.id;document.getElementById('business').dispatchEvent(new Event('change'));activate('rankings',true);};list.append(b);}panels.competitors.append(list);
 }else{
  // The report title already identifies the business; remove the redundant button.
  document.getElementById(biz)?.setAttribute('hidden','');
@@ -41,6 +41,6 @@ document.title=names[biz]+' · Organic ranking report';
 
 (()=>{const a=document.createElement("a");a.href="tracking-center.html?business="+window.REPORT_BUSINESS;a.textContent="Daily pulse & schedules ↗";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();
 
-(()=>{const s=document.createElement("script");s.src="ranking-timeline.js?v=quick-view-7";document.body.append(s)})();
+(()=>{const s=document.createElement("script");s.src="ranking-timeline.js?v=quick-view-8";document.body.append(s)})();
 
 (()=>{const a=document.createElement("a");a.href="manage-tracking.html?business="+(window.REPORT_BUSINESS||"uwg");a.textContent="Keywords & competitors ↗";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();

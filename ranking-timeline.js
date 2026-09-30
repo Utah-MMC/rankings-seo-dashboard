@@ -53,7 +53,7 @@ const deeperOwned=allResults.filter(o=>o.rank>10&&owned(o));
 if(deeperOwned.length){const more=document.createElement('p');more.className='fine';more.textContent='Additional '+managed[0]+' results in positions 11–40';list.append(more);for(const o of deeperOwned)list.append(resultItem(o))}
 if(!results.length){const empty=document.createElement('p');empty.textContent='No top-10 results are available in this saved scan.';list.append(empty)}
 if(localHeading){localHeading.before(list);localHeading.textContent='Tracked local competitors in positions 11–40';const leaders=localHeading.nextElementSibling; if(leaders?.classList.contains('leaders')){for(const item of [...leaders.children]){const rank=Number(item.querySelector('b')?.textContent.match(/^#(\d+)/)?.[1]);if(!rank||rank<=10)item.remove()}if(!leaders.children.length)leaders.textContent='No tracked local competitors were returned in positions 11–40.'}}else host.append(list);
-openQuickView();
+highlightManaged(host);openQuickView();
 };
 // Count every returned organic appearance, preserving multiple pages and repeated URLs.
 const grid=document.getElementById('grid');
@@ -69,4 +69,10 @@ const badge=document.createElement('span');badge.className='appearance-badge';ba
 }}
 css.textContent+=`#grid td button{position:relative}#grid .appearance-badge{position:absolute;right:1px;top:0;display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 3px;border-radius:5px;background:#fff;border:1px solid #8cabb5;color:#25566a;font:600 10px/1 system-ui;box-shadow:0 1px 3px #173b4c12;cursor:help}`;
 if(grid){new MutationObserver(appearanceBadges).observe(grid,{childList:true});appearanceBadges()}
+let managedCatalog=null;
+function highlightManaged(host){const b=window.REPORT_BUSINESS||'uwg';const companies=(typeof DATA!=='undefined'?DATA.competitors:null)||managedCatalog?.competitors?.[b]||[];
+const managed=companies.filter(c=>c.relationship==='managed');
+for(const a of host.querySelectorAll('a[href]')){let domain;try{domain=new URL(a.href).hostname.toLowerCase()}catch{continue}const company=managed.find(c=>c.domains.some(d=>domain===d||domain.endsWith('.'+d)));if(!company)continue;const row=a.closest('.serp-result,.leader');if(!row||row.classList.contains('serp-owned'))continue;row.classList.add('serp-managed');if(!row.querySelector('.managed-site-badge')){const tag=document.createElement('span');tag.className='managed-site-badge';tag.textContent='Owned / managed site';a.before(tag)}}}
+css.textContent+=`.serp-managed{background:#f0eafb!important;border-left:3px solid #8860b6;border-radius:8px;padding:10px;margin:5px 0}.managed-site-badge{display:block;width:fit-content;font-size:11px;font-weight:650;color:#67408c;background:#e4d6f5;border-radius:4px;padding:2px 6px;margin-bottom:4px}`;
+fetch('business-catalog.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(c=>{managedCatalog=c;highlightManaged(details)}).catch(()=>{});
 })();

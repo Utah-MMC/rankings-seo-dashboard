@@ -1,6 +1,6 @@
 {
-  "revision": 2,
-  "updated_at": "2026-09-30T05:30:14.455846+00:00",
+  "revision": 5,
+  "updated_at": "2026-09-30T05:41:35.257937+00:00",
   "competitors": {
     "uwg": [
       {
@@ -79,6 +79,28 @@
         "verified": true,
         "source": "https://www.pondsinutah.com/about-us/",
         "note": "Official website identifies A Touch of Nature in Riverton and pond maintenance services."
+      },
+      {
+        "id": "custom-80607202ce6d",
+        "name": "Water Raptor",
+        "domains": [
+          "waterraptor.com"
+        ],
+        "relationship": "managed",
+        "verified": false,
+        "source": "https://waterraptor.com/",
+        "note": "User-configured website; identity not independently verified."
+      },
+      {
+        "id": "custom-432e14048ae1",
+        "name": "Dredge Authority",
+        "domains": [
+          "dredgeauthority.com"
+        ],
+        "relationship": "managed",
+        "verified": false,
+        "source": "https://dredgeauthority.com/",
+        "note": "User-configured website; identity not independently verified."
       }
     ],
     "icon": [
