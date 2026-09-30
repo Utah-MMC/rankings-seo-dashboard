@@ -49,11 +49,8 @@ const allResults=(row.current?.organic||[]).filter(o=>o.rank>=1&&o.rank<=40).sor
 function resultItem(o){const item=document.createElement('div');item.className='serp-result'+(owned(o)?' serp-owned':'');const rank=document.createElement('b');rank.textContent='#'+o.rank;const body=document.createElement('div');if(owned(o)){const badge=document.createElement('span');badge.className='serp-owned-badge';badge.textContent=managed[0]+' · Your result';body.append(badge)}const link=document.createElement('a');link.textContent=o.title||o.domain||o.url;if(/^https?:\/\//.test(o.url||'')){link.href=o.url;link.target='_blank';link.rel='noopener noreferrer'}const url=document.createElement('small');url.textContent=o.url||'';body.append(link,url);item.append(rank,body);return item}
 const results=allResults.filter(o=>o.rank<=10);
 for(const o of results)list.append(resultItem(o));
-const ownList=document.createElement('section');ownList.className='serp-owned-list';const ownTitle=document.createElement('h3');ownTitle.textContent=managed[0]+' · All appearances in positions 1–40';ownList.append(ownTitle);
-const ownResults=allResults.filter(owned);const summary=document.createElement('p');summary.className='fine';summary.textContent=ownResults.length+' ranking appearances · '+new Set(ownResults.map(o=>o.url)).size+' distinct page URLs. From this saved scan; coverage through #'+(row.current?.max_organic_rank??row.current?.coverage??row.current?.returned??0)+'. Each returned position is shown, including repeated URLs.';ownList.append(summary);
-for(const o of ownResults)ownList.append(resultItem(o));
-if(!ownResults.length){const empty=document.createElement('p');empty.textContent='No pages from your domain were found within this scan’s returned coverage.';ownList.append(empty)}
-section.after(ownList);
+const deeperOwned=allResults.filter(o=>o.rank>10&&owned(o));
+if(deeperOwned.length){const more=document.createElement('p');more.className='fine';more.textContent='Additional '+managed[0]+' results in positions 11–40';list.append(more);for(const o of deeperOwned)list.append(resultItem(o))}
 if(!results.length){const empty=document.createElement('p');empty.textContent='No top-10 results are available in this saved scan.';list.append(empty)}
 if(localHeading){localHeading.before(list);localHeading.textContent='Tracked local competitors in positions 11–40';const leaders=localHeading.nextElementSibling; if(leaders?.classList.contains('leaders')){for(const item of [...leaders.children]){const rank=Number(item.querySelector('b')?.textContent.match(/^#(\d+)/)?.[1]);if(!rank||rank<=10)item.remove()}if(!leaders.children.length)leaders.textContent='No tracked local competitors were returned in positions 11–40.'}}else host.append(list);
 openQuickView();
