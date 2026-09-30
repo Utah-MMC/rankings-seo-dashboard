@@ -57,22 +57,30 @@ highlightManaged(host);openQuickView();
 };
 // Count every returned organic appearance, preserving multiple pages and repeated URLs.
 const grid=document.getElementById('grid');
+let managedCatalog=null;
 function appearanceBadges(){if(!grid||typeof DATA==='undefined')return;
 for(const button of grid.querySelectorAll('button[data-row],button[data-index]')){
 const row=DATA.rows[Number(button.dataset.row??button.dataset.index)];if(!row)continue;
 const selected=document.getElementById('business')?.value;
 const managedDomains={uwg:['utahwatergardens.com'],icon:['icondumpsters.com'],tnt:['tntdump.com']};
 const domains=(selected&&DATA.competitors?.find(b=>b.id===selected)?.domains)||managedDomains[row.business||window.REPORT_BUSINESS||'uwg']||[];
-const count=(row.current?.organic||[]).filter(o=>{if(o.rank<1||o.rank>40)return false;try{const d=new URL(o.url).hostname.toLowerCase();return domains.some(x=>d===x||d.endsWith('.'+x))}catch{return false}}).length;
-if(count<=1)continue;
-const badge=document.createElement('span');badge.className='appearance-badge';badge.textContent=count;badge.title=count+' organic appearances in the returned top 40';badge.setAttribute('aria-label',badge.title);button.append(badge);
+const results=(row.current?.organic||[]).filter(o=>o.rank>=1&&o.rank<=40);
+const matches=(o,ds)=>{try{const d=new URL(o.url).hostname.toLowerCase();return ds.some(x=>d===x||d.endsWith('.'+x))}catch{return false}};
+const count=results.filter(o=>matches(o,domains)).length;
+const business=row.business||window.REPORT_BUSINESS||'uwg';
+const companies=managedCatalog?.competitors?.[business]||DATA.competitors||[];
+const related=companies.filter(c=>c.relationship==='managed'&&!c.domains.some(d=>domains.includes(d))&&results.some(o=>matches(o,c.domains)));
+button.querySelector('.appearance-badge')?.remove();
+if(count<=1&&!related.length)continue;
+const badge=document.createElement('span');badge.className='appearance-badge'+(related.length?' managed-overlap':'');badge.textContent=count;
+badge.title=count+' organic appearance'+(count===1?'':'s')+' for the selected business in the returned top 40'+(!related.length?'':'. Also found: '+related.map(c=>c.name.replace(/ \(Managed site\)$/,'')).join(', '));
+badge.setAttribute('aria-label',badge.title);button.append(badge);
 }}
-css.textContent+=`#grid td button{position:relative}#grid .appearance-badge{position:absolute;right:1px;top:0;display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 3px;border-radius:5px;background:#fff;border:1px solid #8cabb5;color:#25566a;font:600 10px/1 system-ui;box-shadow:0 1px 3px #173b4c12;cursor:help}`;
+css.textContent+=`#grid td{position:relative}#grid td button{position:static}#grid .appearance-badge{position:absolute;right:1px;top:1px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:17px;height:17px;padding:0 3px;border-radius:4px;background:#fff;border:1px solid #8cabb5;color:#25566a;font:600 10px/1 system-ui;box-shadow:0 1px 3px #173b4c12;cursor:help}#grid .appearance-badge.managed-overlap{border:2px solid #8860b6;color:#67408c;background:#faf7ff}`;
 if(grid){new MutationObserver(appearanceBadges).observe(grid,{childList:true});appearanceBadges()}
-let managedCatalog=null;
 function highlightManaged(host){const b=window.REPORT_BUSINESS||'uwg';const companies=(typeof DATA!=='undefined'?DATA.competitors:null)||managedCatalog?.competitors?.[b]||[];
 const managed=companies.filter(c=>c.relationship==='managed');
 for(const a of host.querySelectorAll('a[href]')){let domain;try{domain=new URL(a.href).hostname.toLowerCase()}catch{continue}const company=managed.find(c=>c.domains.some(d=>domain===d||domain.endsWith('.'+d)));if(!company)continue;const row=a.closest('.serp-result,.leader');if(!row||row.classList.contains('serp-owned'))continue;row.classList.add('serp-managed');if(!row.querySelector('.managed-site-badge')){const tag=document.createElement('span');tag.className='managed-site-badge';tag.textContent='Owned / managed site';a.before(tag)}}}
 css.textContent+=`.serp-managed{background:#f0eafb!important;border-left:3px solid #8860b6;border-radius:8px;padding:10px;margin:5px 0}.managed-site-badge{display:block;width:fit-content;font-size:11px;font-weight:650;color:#67408c;background:#e4d6f5;border-radius:4px;padding:2px 6px;margin-bottom:4px}`;
-fetch('business-catalog.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(c=>{managedCatalog=c;highlightManaged(details)}).catch(()=>{});
+fetch('business-catalog.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(c=>{managedCatalog=c;highlightManaged(details);appearanceBadges()}).catch(()=>{});
 })();
