@@ -6,7 +6,7 @@ const style=document.createElement('style');style.textContent=`[hidden]{display:
 document.head.append(style);
 const header=document.createElement('header');header.className='report-header';header.innerHTML=`<div><h1>${names[biz]}</h1><p>Organic rankings · Local competitors · Page analysis</p></div><details class="report-menu"><summary>Switch business</summary><div>${Object.entries(names).map(([id,name])=>`<a href="${files[id]}" ${id===biz?'aria-current="page"':''}>${name}</a>`).join('')}</div></details>`;
 const nav=document.createElement('nav');nav.className='report-nav';nav.setAttribute('aria-label',names[biz]+' report sections');
-const sections=[['rankings','Rankings'],['analysis','Flagged events'],['competitors','Competitors'],['changes','Website edits'],['research','Keyword research'],['method','Report notes']];
+const sections=[['rankings','Rankings'],['opportunities','Opportunities'],['analysis','Flagged events'],['competitors','Competitors'],['changes','Website edits'],['research','Keyword research'],['method','Report notes']];
 const panels={};for(const [id,label] of sections){const p=document.createElement('section');p.className='report-panel';p.id='view-'+id;p.setAttribute('aria-label',label);panels[id]=p;const button=document.createElement('button');button.textContent=label;button.dataset.view=id;button.onclick=()=>activate(id);nav.append(button);}
 let contentStarted=false;
 for(const node of old){
@@ -41,7 +41,7 @@ document.title=names[biz]+' · Organic ranking report';
 
 (()=>{const a=document.createElement("a");a.href="tracking-center.html?business="+window.REPORT_BUSINESS;a.textContent="Pulse & schedules";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();
 
-(()=>{const s=document.createElement("script");s.src="ranking-timeline.js?v=quick-view-13";document.body.append(s)})();
+(()=>{const s=document.createElement("script");s.src="ranking-timeline.js?v=quick-view-14";document.body.append(s)})();
 
 (()=>{const a=document.createElement("a");a.href="manage-tracking.html?business="+(window.REPORT_BUSINESS||"uwg");a.textContent="Keywords & sites";a.style.cssText="padding:10px;align-self:center";document.querySelector(".report-nav")?.append(a)})();
 
@@ -50,3 +50,5 @@ document.title=names[biz]+' · Organic ranking report';
 (()=>{const nav=document.querySelector(".report-nav");if(!nav)return;const tools=document.createElement("div");tools.className="report-tools";tools.setAttribute("aria-label","Report tools");for(const a of [...nav.querySelectorAll("a")]){if(a.href.includes("scan-controls"))a.classList.add("scan-action");tools.append(a)}nav.append(tools);const s=document.createElement("script");s.src="page-evidence.js?v=1";document.body.append(s)})();
 
 (()=>{const s=document.createElement("script");s.src="ranking-table-controls.js?v=3";document.body.append(s)})();
+
+(()=>{const s=document.createElement("script");s.src="opportunities.js?v=1";document.body.append(s)})();
