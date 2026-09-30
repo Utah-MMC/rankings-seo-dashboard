@@ -55,4 +55,18 @@ if(!results.length){const empty=document.createElement('p');empty.textContent='N
 if(localHeading){localHeading.before(list);localHeading.textContent='Tracked local competitors in positions 11–40';const leaders=localHeading.nextElementSibling; if(leaders?.classList.contains('leaders')){for(const item of [...leaders.children]){const rank=Number(item.querySelector('b')?.textContent.match(/^#(\d+)/)?.[1]);if(!rank||rank<=10)item.remove()}if(!leaders.children.length)leaders.textContent='No tracked local competitors were returned in positions 11–40.'}}else host.append(list);
 openQuickView();
 };
+// Count every returned organic appearance, preserving multiple pages and repeated URLs.
+const grid=document.getElementById('grid');
+function appearanceBadges(){if(!grid||typeof DATA==='undefined')return;
+for(const button of grid.querySelectorAll('button[data-row],button[data-index]')){
+const row=DATA.rows[Number(button.dataset.row??button.dataset.index)];if(!row)continue;
+const selected=document.getElementById('business')?.value;
+const managedDomains={uwg:['utahwatergardens.com'],icon:['icondumpsters.com'],tnt:['tntdump.com']};
+const domains=(selected&&DATA.competitors?.find(b=>b.id===selected)?.domains)||managedDomains[row.business||window.REPORT_BUSINESS||'uwg']||[];
+const count=(row.current?.organic||[]).filter(o=>{if(o.rank<1||o.rank>40)return false;try{const d=new URL(o.url).hostname.toLowerCase();return domains.some(x=>d===x||d.endsWith('.'+x))}catch{return false}}).length;
+if(count<=1)continue;
+const badge=document.createElement('span');badge.className='appearance-badge';badge.textContent=count;badge.title=count+' organic appearances in the returned top 40';badge.setAttribute('aria-label',badge.title);button.append(badge);
+}}
+css.textContent+=`#grid td button{position:relative}#grid .appearance-badge{position:absolute;right:1px;top:0;display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 3px;border-radius:5px;background:#fff;border:1px solid #8cabb5;color:#25566a;font:600 10px/1 system-ui;box-shadow:0 1px 3px #173b4c12;cursor:help}`;
+if(grid){new MutationObserver(appearanceBadges).observe(grid,{childList:true});appearanceBadges()}
 })();
