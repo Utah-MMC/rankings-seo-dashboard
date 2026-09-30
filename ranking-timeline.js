@@ -53,7 +53,7 @@ const deeperOwned=allResults.filter(o=>o.rank>10&&owned(o));
 if(deeperOwned.length){const more=document.createElement('p');more.className='fine';more.textContent='Additional '+managed[0]+' results in positions 11–40';list.append(more);for(const o of deeperOwned)list.append(resultItem(o))}
 if(!results.length){const empty=document.createElement('p');empty.textContent='No top-10 results are available in this saved scan.';list.append(empty)}
 if(localHeading){localHeading.before(list);localHeading.textContent='Tracked local competitors in positions 11–40';const leaders=localHeading.nextElementSibling; if(leaders?.classList.contains('leaders')){for(const item of [...leaders.children]){const rank=Number(item.querySelector('b')?.textContent.match(/^#(\d+)/)?.[1]);if(!rank||rank<=10)item.remove()}if(!leaders.children.length)leaders.textContent='No tracked local competitors were returned in positions 11–40.'}}else host.append(list);
-highlightManaged(host);openQuickView();
+window.PageEvidenceContext=[host,row,samples];window.PageEvidence?.show(host,row,samples);highlightManaged(host);openQuickView();
 };
 // Count every returned organic appearance, preserving multiple pages and repeated URLs.
 const grid=document.getElementById('grid');
