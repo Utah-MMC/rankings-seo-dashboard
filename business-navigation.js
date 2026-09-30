@@ -47,8 +47,8 @@ document.title=names[biz]+' · Organic ranking report';
 
 (()=>{const a=document.createElement("a");a.href="scan-controls.html?business="+(window.REPORT_BUSINESS||"uwg");a.textContent="Run a scan";a.style.cssText="padding:10px;align-self:center;font-weight:650";document.querySelector(".report-nav")?.append(a)})();
 
-(()=>{const nav=document.querySelector(".report-nav");if(!nav)return;const tools=document.createElement("div");tools.className="report-tools";tools.setAttribute("aria-label","Report tools");for(const a of [...nav.querySelectorAll("a")]){if(a.href.includes("scan-controls"))a.classList.add("scan-action");tools.append(a)}nav.append(tools);const s=document.createElement("script");s.src="page-evidence.js?v=1";document.body.append(s)})();
+(()=>{const nav=document.querySelector(".report-nav");if(!nav)return;const tools=document.createElement("div");tools.className="report-tools";tools.setAttribute("aria-label","Report tools");for(const a of [...nav.querySelectorAll("a")]){if(a.href.includes("scan-controls"))a.classList.add("scan-action");tools.append(a)}nav.append(tools);const s=document.createElement("script");s.src="page-evidence.js?v=2";document.body.append(s)})();
 
 (()=>{const s=document.createElement("script");s.src="ranking-table-controls.js?v=3";document.body.append(s)})();
 
-(()=>{const s=document.createElement("script");s.src="opportunities.js?v=1";document.body.append(s)})();
+(()=>{const s=document.createElement("script");s.src="opportunities.js?v=2";document.body.append(s)})();

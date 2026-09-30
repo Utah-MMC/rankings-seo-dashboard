@@ -1,0 +1,39 @@
+{
+  "enabled": true,
+  "updated_at": "2026-09-30T21:48:35.833279+00:00",
+  "counts": {
+    "pending": 0,
+    "complete": 17,
+    "failed": 2
+  },
+  "businesses": {
+    "uwg": {
+      "pending": 0,
+      "complete": 4,
+      "failed": 1
+    },
+    "icon": {
+      "pending": 0,
+      "complete": 10,
+      "failed": 1
+    },
+    "tnt": {
+      "pending": 0,
+      "complete": 3,
+      "failed": 0
+    }
+  },
+  "failures": [
+    {
+      "business": "uwg",
+      "url": "https://www.pondsinutah.com/how-to-detect-and-fix-pond-leaks/",
+      "error": "Too many redirects. No snapshot saved."
+    },
+    {
+      "business": "icon",
+      "url": "https://bluebindumpsters.co/salt-lake-city-branch",
+      "error": "Only this business and its configured competitor websites can be checked"
+    }
+  ],
+  "note": "Page capture times are separate from ranking dates. Failed pages are not snapshots. No paid ranking searches."
+}
